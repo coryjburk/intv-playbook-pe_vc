@@ -75,7 +75,7 @@ A fixed sidebar on the left moves you between the six modules:
 | **Strategic Frameworks** | Sixteen institutional frameworks (LBO architecture, value-creation plan, due diligence, and more) you can reference while you prep. |
 | **Interview Battlecards** | Two quick-reference cards — one Investment, one Portfolio Operations — with must-know concepts, power phrases, and metrics to know cold. |
 | **Deal Team Red Flags** | Ten common ways candidates lose credibility, each paired with an Eccles remedy. |
-| **Readiness Dashboard** | Your live 0–100 readiness score, broken out across twelve competencies. |
+| **Readiness Dashboard** | Your live 0–100 readiness score across twelve competencies — saved automatically so it carries across sessions. |
 
 ---
 
@@ -166,11 +166,13 @@ Every evaluation feeds the dashboard. Each of the twelve competency categories c
 
 - The tool keeps your **best demonstrated score** in each category, so a quick rough attempt never erases earlier strong work.
 - Your overall tier badge (Emerging through Elite) updates the moment a category improves.
+- **Your progress saves automatically** in your browser after each evaluation, so you can close the tab and pick up where you left off on another day. A status line under the score shows when it was last updated.
+- To wipe the slate and start over, use the **Reset Dashboard to Zero** button on the dashboard. It asks for confirmation, then clears all twelve competencies and removes the saved data.
 - Aim to lift every bar above 75 (Interview Ready) before a live interview, paying special attention to the categories matching the role you are recruiting for.
 
 > [!NOTE]
-> **One thing to know about progress**
-> Your scores live in the browser for the current session only — there is no login or saved history. If you refresh or close the tab, the dashboard resets. Treat each visit as a focused practice session rather than a long-term gradebook.
+> **About saved progress**
+> Your scores are saved in the **specific browser on the specific device** you practice on — there is no login or cloud sync. Progress carries across days on the same machine and browser, but it will not follow you to a different device or browser. Everything stays private to you.
 
 ---
 
@@ -208,9 +210,16 @@ Open the published `https` link in Chrome or Edge, in its own tab, and allow mic
 </details>
 
 <details>
-<summary><strong>My dashboard reset to zero.</strong></summary>
+<summary><strong>How do I clear my progress and start over?</strong></summary>
 
-Scores are kept only for the current browser session. Refreshing or closing the tab clears them. This is expected behavior.
+Open the Readiness Dashboard and click **Reset Dashboard to Zero**. It confirms first, then clears all twelve competencies and deletes the saved data for this browser. Otherwise your progress saves automatically and persists across sessions — it will not reset on its own when you refresh or close the tab.
+
+</details>
+
+<details>
+<summary><strong>My progress didn't appear on another device or browser.</strong></summary>
+
+Saved progress is tied to the specific browser and device you practiced on; it does not sync across devices. Use the same browser on the same machine to see your running dashboard.
 
 </details>
 
@@ -224,7 +233,7 @@ It is a transparent heuristic meant for trend-spotting and self-coaching, not pr
 <details>
 <summary><strong>Will other students see my answers or scores?</strong></summary>
 
-No. Everything runs privately in your own browser; nothing is sent anywhere or shared.
+No. Everything runs privately in your own browser; your saved scores never leave your device and nothing is shared.
 
 </details>
 
