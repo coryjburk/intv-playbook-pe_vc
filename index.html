@@ -1121,6 +1121,36 @@
             color: #666;
             line-height: 1.5;
         }
+        .dashboard-controls-cluster {
+            margin-top: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+        .dashboard-reset-btn {
+            background: transparent;
+            color: var(--primary);
+            border: 1.5px solid var(--primary);
+            padding: 9px 20px;
+            border-radius: 6px;
+            font-family: var(--font);
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            transition: background 0.18s ease, color 0.18s ease;
+        }
+        .dashboard-reset-btn:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+        .dashboard-saved-status {
+            font-size: 11px;
+            color: #8A8A8A;
+            line-height: 1.4;
+            max-width: 250px;
+        }
     </style>
 </head>
 <body>
@@ -1360,7 +1390,12 @@
                     <div id="dash-tier-badge" class="tier-badge">Emerging</div>
                     
                     <div class="dashboard-action-prompt">
-                        Your scores adapt dynamically as you execute practice modules or generate simulated perfect answers within the playbook generator.
+                        Your scores adapt dynamically as you execute practice modules or generate simulated perfect answers within the playbook generator. Your progress is saved automatically in this browser so you can return across multiple sessions.
+                    </div>
+
+                    <div class="dashboard-controls-cluster">
+                        <button type="button" class="dashboard-reset-btn" onclick="resetDashboardToZero()">Reset Dashboard to Zero</button>
+                        <div id="dash-saved-status" class="dashboard-saved-status"></div>
                     </div>
                 </div>
 
@@ -2541,7 +2576,9 @@
             renderQuestionBankDynamicGridDisplay();
             renderStrategicFrameworkDisplayView("lbo");
             renderRedFlagsStaticListStack();
+            loadPEProgress();
             initializeCandidateDashboardProgressMetrics();
+            updateSavedStatusLabel();
             setupFrameworkSidebarLinkTriggers();
             setupBattlecardTabControlTriggers();
             setupGlobalNavigationLinkTriggers();
@@ -3001,6 +3038,69 @@ Return an executable markdown response structured EXACTLY matching the formattin
             "PE-Backed Leadership Scenarios": 0
         };
 
+        // ============================================================
+        //  PROGRESS PERSISTENCE
+        //  Saves the readiness dashboard to THIS browser via localStorage
+        //  so a candidate's best-demonstrated scores carry across sessions
+        //  and days. Namespaced + versioned to avoid collisions with the
+        //  other Eccles tools served from the same GitHub Pages origin.
+        // ============================================================
+        const PE_READINESS_STORAGE_KEY = 'eccles_pe_readiness_v1';
+        let PE_LAST_SAVED_AT = null;
+
+        function savePEProgress() {
+            try {
+                PE_LAST_SAVED_AT = new Date().toISOString();
+                localStorage.setItem(PE_READINESS_STORAGE_KEY, JSON.stringify({
+                    scores: COMPETENCY_DASHBOARD_STATE,
+                    updatedAt: PE_LAST_SAVED_AT
+                }));
+            } catch (e) { /* storage blocked (e.g. preview sandbox) -> stay in-memory */ }
+            updateSavedStatusLabel();
+        }
+
+        function loadPEProgress() {
+            try {
+                const raw = localStorage.getItem(PE_READINESS_STORAGE_KEY);
+                if (!raw) return;
+                const data = JSON.parse(raw);
+                if (data && data.scores) {
+                    for (const k in COMPETENCY_DASHBOARD_STATE) {
+                        if (typeof data.scores[k] === 'number') {
+                            COMPETENCY_DASHBOARD_STATE[k] = data.scores[k];
+                        }
+                    }
+                }
+                if (data && data.updatedAt) PE_LAST_SAVED_AT = data.updatedAt;
+            } catch (e) { /* corrupt or unavailable -> ignore, start clean */ }
+        }
+
+        function updateSavedStatusLabel() {
+            const node = document.getElementById('dash-saved-status');
+            if (!node) return;
+            if (!PE_LAST_SAVED_AT) {
+                node.innerText = 'No saved progress yet — complete a practice evaluation to begin tracking.';
+                return;
+            }
+            let when = '';
+            try {
+                const d = new Date(PE_LAST_SAVED_AT);
+                when = d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) +
+                       ' at ' + d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+            } catch (e) { when = ''; }
+            node.innerText = 'Progress saved in this browser' + (when ? ' \u00b7 last updated ' + when : '');
+        }
+
+        function resetDashboardToZero() {
+            const ok = confirm('Reset your readiness dashboard to zero?\n\nThis permanently clears your saved progress across all 12 competencies on this browser. This cannot be undone.');
+            if (!ok) return;
+            for (const k in COMPETENCY_DASHBOARD_STATE) COMPETENCY_DASHBOARD_STATE[k] = 0;
+            try { localStorage.removeItem(PE_READINESS_STORAGE_KEY); } catch (e) {}
+            PE_LAST_SAVED_AT = null;
+            initializeCandidateDashboardProgressMetrics();
+            updateSavedStatusLabel();
+        }
+
         function initializeCandidateDashboardProgressMetrics() {
             const targetContainerNode = document.getElementById('dashboard-progress-bars-container');
             targetContainerNode.innerHTML = "";
@@ -3027,6 +3127,7 @@ Return an executable markdown response structured EXACTLY matching the formattin
                 document.getElementById(`progress-fill-node-${cleanId}`).style.width = `${newScore}%`;
                 document.getElementById(`score-lbl-node-${cleanId}`).innerText = `${newScore}%`;
                 recalculateGlobalMasterReadinessScoreMetrics();
+                savePEProgress();
             }
         }
 
