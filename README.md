@@ -1,5 +1,5 @@
 <!--
-  Eccles MBA - Private Equity & Value Creation Interview Playbook
+  Full-Time MBA Program · David Eccles School of Business - Private Equity & Value Creation Interview Playbook
   USER MANUAL (README)
   NOTE: Replace the placeholder live URL in the "Getting Started" section
   with your actual GitHub Pages link before publishing.
@@ -7,9 +7,17 @@
 
 # Private Equity & Value Creation Interview Playbook
 
-### Eccles MBA · David Eccles School of Business · University of Utah
+### Full-Time MBA Program · David Eccles School of Business · University of Utah
 
 **User Manual & Practice Guide**
+
+---
+
+## Live Link
+
+[https://coryjburk.github.io/intv-playbook-pe_vc/]
+
+---
 
 A self-service practice tool for Eccles MBA candidates preparing for private equity, investment, and portfolio operations interviews. It pairs a structured question bank with a practice simulator and a live readiness dashboard, so you can rehearse independently and see where you stand.
 
