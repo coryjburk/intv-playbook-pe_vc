@@ -15,7 +15,7 @@
 
 ## Live Link
 
-[https://coryjburk.github.io/intv-playbook-pe_vc/]
+[Intv Playbook - PE (vC)](https://coryjburk.github.io/intv-playbook-pe_vc/)
 
 ---
 
